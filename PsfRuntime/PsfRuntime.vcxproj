@@ -129,25 +129,25 @@
       <ModuleDefinitionFile>PsfRuntime.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">powershell.exe /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Post Build Script</Message>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">powershell.exe /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Post Build Script</Message>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">powershell.exe /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Post Build Script</Message>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell.exe /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" /f $(SolutionDir)PostProjectBuildEvent.ps1     $(SolutionDir)verpatch\verpatch.exe      $(TargetPath)     $(TargetDir)      $(TargetDir)$(TargetName).SBOM.xml         $(ProjectPath)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Post Build Script</Message>
