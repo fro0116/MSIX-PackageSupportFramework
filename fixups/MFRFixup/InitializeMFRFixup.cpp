@@ -93,7 +93,16 @@ void InitializeMFRFixup()
     }
     catch (...)
     {
-        Log(LogLevel_Exception, "[%s%d]\t\tMfrFixup ignorable exception creating directories.", g_MfrModuleName, 0);
+        Log(LogLevel_Exception, "[%s%d]\t\tMfrFixup ignorable exception creating WritablePackageRoot directories.", g_MfrModuleName, 0);
+    }
+
+    try
+    {
+        std::filesystem::create_directories(g_writablePackageRootPath / L"VFS");
+    }
+    catch (...)
+    {
+        Log(LogLevel_Exception, "[%s%d]\t\tMfrFixup ignorable exception creating VFS directories.", g_MfrModuleName, 0);
     }
 
     g_short_packageRootPath = ConvertPathToShortPath(g_packageRootPath);
