@@ -1,4 +1,4 @@
-$version = "v2025.06.09-3"
+$version = "v2025.06.09-4"
 $release_directory = "template-release-$version"
 $debug_directory = "template-debug-$version"
 New-Item -ItemType Directory -Force -Path $release_directory
@@ -11,6 +11,7 @@ Remove-Item $release_directory/*.pdb
 Remove-Item $release_directory/*.exp
 Remove-Item $release_directory/*.lib
 Remove-Item $release_directory/*.idb
+Remove-Item $release_directory/*.ilk -ErrorAction SilentlyContinue
 Remove-Item $release_directory/PsfMonitor.exe.config
 Remove-Item -Recurse $release_directory/x86
 Remove-Item -Recurse $release_directory/amd64
@@ -27,6 +28,7 @@ Remove-Item $debug_directory/*.pdb
 Remove-Item $debug_directory/*.exp
 Remove-Item $debug_directory/*.lib
 Remove-Item $debug_directory/*.idb
+Remove-Item $debug_directory/*.ilk -ErrorAction SilentlyContinue
 Remove-Item $debug_directory/PsfMonitor.exe.config
 Remove-Item -Recurse $debug_directory/x86
 Remove-Item -Recurse $debug_directory/amd64
