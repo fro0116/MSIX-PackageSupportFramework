@@ -235,9 +235,6 @@
     <ClCompile Include="MoveFileWithProgress.cpp">
       <Filter>Source Files\Intercepts\Moves</Filter>
     </ClCompile>
-    <ClCompile Include="ReplaceFile.cpp">
-      <Filter>Source Files\Intercepts\Replaces</Filter>
-    </ClCompile>
     <ClCompile Include="FindClose.cpp">
       <Filter>Source Files\Intercepts\FindsAndSearches</Filter>
     </ClCompile>

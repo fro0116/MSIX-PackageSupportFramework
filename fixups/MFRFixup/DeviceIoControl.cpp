@@ -22,7 +22,9 @@
 #include "DetermineCohorts.h"
 #include <Windows.h>
 #include <IoapiSet.h>
+#if INTERCEPT_DEVICEIOCONTROL
 #include <mountmgr.h>
+#endif
 
 #define CTL_CODE(DeviceType, Function, Method, Access) \
     (((DeviceType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method))

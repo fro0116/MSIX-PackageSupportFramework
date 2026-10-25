@@ -287,7 +287,6 @@
     <ClCompile Include="NtCreateFilecpp.cpp" />
     <ClCompile Include="NtOpenFile.cpp" />
     <ClCompile Include="RemoveDirectory.cpp" />
-    <ClCompile Include="ReplaceFile.cpp" />
     <ClCompile Include="SetFileAttributes.cpp" />
     <ClCompile Include="GetFileAttributes.cpp" />
     <ClCompile Include="GetFileAttributesEx.cpp" />
