@@ -59,6 +59,17 @@ namespace mfr
             return mfr_path_types::in_redirection_area_writablepackageroot;
         }
 
+        // MFRFixup-WPRALIAS: classify the WindowsApps\writablepackageroot alias as the
+        // package PVAD area, not as an external native path.
+        if (pathString_isSubsetOf_Path(g_packageRootWprAliasPath.generic_wstring().c_str(), forwardPath))
+        {
+            return mfr_path_types::in_package_pvad_area;
+        }
+        if (pathString_isSubsetOf_Path(g_short_packageRootWprAliasPath.generic_wstring().c_str(), forwardPath))
+        {
+            return mfr_path_types::in_package_pvad_area;
+        }
+
         //if (pathString_isSubsetOf_Path(g_redirectRootPath.generic_wstring().c_str(), path))
         if (pathString_isSubsetOf_Path(g_redirectRootPath.generic_wstring().c_str(), forwardPath))
         {

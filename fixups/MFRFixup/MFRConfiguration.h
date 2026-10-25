@@ -21,6 +21,7 @@ namespace mfr
     struct mfr_configuration
     {
         bool Ilv_Aware = false;
+        bool Disable_KernelBase_Hooks = false;  // MFRFixup-PDRM: skip the kernelbase read/query fixup family (Enigma DRM coexistence; reads still handled at NT layer).
         DWORD COW = 0;
     };
 

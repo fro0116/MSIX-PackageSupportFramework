@@ -17,6 +17,8 @@
 #include "FunctionImplementations_WindowsStorage.h"
 #include "FunctionImplementations_KernelBase.h"
 #include "FunctionImplementations_ntdll.h"
+#include "MfrConfiguration.h"
+#include <algorithm>
 
 #if _DEBUG
 #define MOREDEBUG 1
@@ -194,7 +196,58 @@ extern "C" {
         int count = psf::attach_count_all_debug();
         Log(LogLevel_DebugIntermediate, L"[0] MFRFixup attaches %d fixups.", count);
 #else
-        psf::attach_all();
+        if (MFRConfiguration.Disable_KernelBase_Hooks)
+        {
+            // MFRFixup-PDRM: attach everything EXCEPT the kernelbase read/query fixup family.
+            // Enigma DRM (PlayDRM) games break when these kernelbase hooks sit on top of the
+            // DRM's virtualized file view; the ntdll fixups still provide read virtualization,
+            // so nothing is lost. Match by the impl:: target variable each fixup attaches to.
+            const void* skipTargets[] =
+            {
+                reinterpret_cast<const void*>(&::FindFirstFileA),
+                reinterpret_cast<const void*>(&::FindFirstFileW),
+                reinterpret_cast<const void*>(&::FindFirstFileExA),
+                reinterpret_cast<const void*>(&::FindFirstFileExW),
+                reinterpret_cast<const void*>(&::FindNextFileA),
+                reinterpret_cast<const void*>(&::FindNextFileW),
+                reinterpret_cast<const void*>(&::FindClose),
+                reinterpret_cast<const void*>(&::GetFileAttributesA),
+                reinterpret_cast<const void*>(&::GetFileAttributesW),
+                reinterpret_cast<const void*>(&::GetFileAttributesExA),
+                reinterpret_cast<const void*>(&::GetFileAttributesExW),
+                reinterpret_cast<const void*>(&::SetCurrentDirectoryA),
+                reinterpret_cast<const void*>(&::SetCurrentDirectoryW),
+                reinterpret_cast<const void*>(&::MoveFileExW),
+                reinterpret_cast<const void*>(&::rename),
+                reinterpret_cast<const void*>(&::_wrename),
+            };
+            std::for_each(psf::details::fixups_begin, psf::details::fixups_end, [&skipTargets](psf::details::detour_function_pair* target)
+            {
+                if (target && !target->Registered && target->Target != nullptr)
+                {
+                    for (auto skip : skipTargets)
+                    {
+                        if (target->Target == skip)
+                        {
+                            return;
+                        }
+                    }
+                    try
+                    {
+                        check_win32(::PSFRegister(&target->Target, target->Detour));
+                        target->Registered = true;
+                    }
+                    catch (...)
+                    {
+                        target->Registered = false;
+                    }
+                }
+            });
+        }
+        else
+        {
+            psf::attach_all();
+        }
 #endif
         return ERROR_SUCCESS;
     }

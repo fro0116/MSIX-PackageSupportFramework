@@ -76,6 +76,31 @@ void InitializeConfiguration()
                 }
             }
 
+            // MFRFixup-PDRM: disableKernelBaseHooks skips the kernelbase read/query fixup family
+            // (FindFirstFile/Ex, FindNextFile, FindClose, GetFileAttributes/Ex). Reads still get
+            // virtualized at the ntdll layer, which coexists with Enigma DRM (PlayDRM) runtimes.
+            if (auto disableKB = rootObject.try_get("disableKernelBaseHooks"))
+            {
+                if (disableKB->type() == psf::json_type::boolean && disableKB->as_boolean().get())
+                {
+                    MFRConfiguration.Disable_KernelBase_Hooks = true;
+                }
+                else if (disableKB->type() == psf::json_type::string)
+                {
+                    std::wstring v{ disableKB->as_string().wstring().data(), disableKB->as_string().wstring().size() };
+                    if (_wcsicmp(v.c_str(), L"true") == 0)
+                    {
+                        MFRConfiguration.Disable_KernelBase_Hooks = true;
+                    }
+                }
+#if MOREDEBUG
+                if (MFRConfiguration.Disable_KernelBase_Hooks)
+                {
+                    Log(L"\t\t\tMFR CONFIG: disableKernelBaseHooks enabled");
+                }
+#endif
+            }
+
             if (auto overrideCOWValue = rootObject.try_get("overrideCOW"))
             {
                std::wstring CowAsWstring = overrideCOWValue->as_string().wstring().data(); //CowAsWstringView.data();

@@ -19,12 +19,14 @@ extern std::filesystem::path g_packageVfsRootPath;
 extern std::filesystem::path g_redirectRootPath;
 extern std::filesystem::path g_writablePackageRootPath;
 extern std::filesystem::path g_finalPackageRootPath;
+extern std::filesystem::path g_packageRootWprAliasPath;
 
 extern std::filesystem::path g_short_packageRootPath;
 extern std::filesystem::path g_short_packageVfsRootPath;
 extern std::filesystem::path g_short_redirectRootPath;
 extern std::filesystem::path g_short_writablePackageRootPath;
 extern std::filesystem::path g_short_finalPackageRootPath;
+extern std::filesystem::path g_short_packageRootWprAliasPath;
 
 extern bool path_isSubsetOf_String(std::filesystem::path& basePath, const wchar_t* pathstring);
 extern bool path_isSubsetOf_String(std::filesystem::path& basePath, const char* pathstring);
