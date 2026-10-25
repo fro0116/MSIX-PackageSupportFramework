@@ -966,6 +966,19 @@ namespace mfr
             packagemap.PackagePathBase = L"";
             // TODO why didn't the original work???
         }
+        else if (path_isSubsetOf_String(g_packageRootWprAliasPath, WsPath.c_str())
+            || path_isSubsetOf_String(g_short_packageRootWprAliasPath, WsPath.c_str()))
+        {
+            // MFRFixup-WPRALIAS: the alias addresses the package root; redirect writes to
+            // the WritablePackageRoot area and keep side borders equal to the PVAD mapping.
+            packagemap.Valid_mapping = mfr_enabled_types::enabled;
+            packagemap.DoesRuntimeMapNativeToVFS = false;
+            packagemap.NativePathBase = g_packageRootPath;
+            packagemap.PackagePathBase = g_packageRootWprAliasPath;
+            packagemap.RedirectedPathBase = g_writablePackageRootPath;
+            packagemap.RedirectionFlags = mfr_redirect_flags::prefer_redirection_containerized;
+            return packagemap;
+        }
         else if (path_isSubsetOf_String(g_packageRootPath, WsPath.c_str()))
         {
             packagemap.Valid_mapping = mfr_enabled_types::enabled;

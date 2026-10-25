@@ -24,12 +24,14 @@ std::filesystem::path g_packageVfsRootPath;
 std::filesystem::path g_redirectRootPath;
 std::filesystem::path g_writablePackageRootPath;
 std::filesystem::path g_finalPackageRootPath;
+std::filesystem::path g_packageRootWprAliasPath;
 
 std::filesystem::path g_short_packageRootPath;
 std::filesystem::path g_short_packageVfsRootPath;
 std::filesystem::path g_short_redirectRootPath;
 std::filesystem::path g_short_writablePackageRootPath;
 std::filesystem::path g_short_finalPackageRootPath;
+std::filesystem::path g_short_packageRootWprAliasPath;
 
 
 #if _DEBUG
@@ -59,6 +61,9 @@ void InitializeMFRFixup()
     g_packageRootPath = psf::remove_trailing_path_separators(packageRootPath);
 
     g_packageVfsRootPath = g_packageRootPath / L"VFS";
+    // MFRFixup-WPRALIAS: the WindowsApps\writablepackageroot alias is the package's own
+    // writable root; Enigma DRM games address package files through this alias.
+    g_packageRootWprAliasPath = g_packageRootPath.parent_path() / L"writablepackageroot";
 
     auto finalPackageRootPath = std::wstring(::PSFQueryFinalPackageRootPath());
     g_finalPackageRootPath = psf::remove_trailing_path_separators(finalPackageRootPath);  // has \\?\ prepended to PackageRootPath
@@ -112,6 +117,9 @@ void InitializeMFRFixup()
     g_short_redirectRootPath = ConvertPathToShortPath(g_redirectRootPath);
     g_short_writablePackageRootPath = ConvertPathToShortPath(g_writablePackageRootPath);
     g_short_finalPackageRootPath = ConvertPathToShortPath(g_finalPackageRootPath);
+    // MFRFixup-WPRALIAS: short form built from the real WindowsApps parent (the alias
+    // dir itself does not exist on disk, so ConvertPathToShortPath would be a no-op).
+    g_short_packageRootWprAliasPath = ConvertPathToShortPath(g_packageRootPath.parent_path().c_str()) / L"writablepackageroot";
 
 #if MOREDEBUG
     Log("[%s%d]\t\tMFRFixup InitializeMFRFixup: mid", g_MfrModuleName, 0);

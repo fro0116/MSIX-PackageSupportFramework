@@ -176,7 +176,20 @@ void DetermineCohorts(std::wstring requestedPath, Cohorts *cohorts, bool UseMore
         {
             Log(L"[%s%d] %s: DetermineCohorts: Request is in package_pvad_area.", g_MfrModuleName, dllInstance, FixupName);
         }
-        cohorts->WsPackage = cohorts->WsRequested;
+        // MFRFixup-WPRALIAS: package cohort for the alias must be the REAL package root
+        // path (same suffix), because the raw alias is not resolvable through VFS filters.
+        if (path_isSubsetOf_String(g_packageRootWprAliasPath, cohorts->file_mfr.Request_NormalizedPath.c_str()))
+        {
+            cohorts->WsPackage = ReplacePathPart(cohorts->file_mfr.Request_NormalizedPath.c_str(), g_packageRootWprAliasPath, g_packageRootPath);
+        }
+        else if (path_isSubsetOf_String(g_short_packageRootWprAliasPath, cohorts->file_mfr.Request_NormalizedPath.c_str()))
+        {
+            cohorts->WsPackage = ReplacePathPart(cohorts->file_mfr.Request_NormalizedPath.c_str(), g_short_packageRootWprAliasPath, g_packageRootPath);
+        }
+        else
+        {
+            cohorts->WsPackage = cohorts->WsRequested;
+        }
         cohorts->map = mfr::Find_TraditionalRedirMapping_FromPackagePath_ForwardSearch(cohorts->file_mfr.Request_NormalizedPath.c_str(), dllInstance);
         if (cohorts->map.Valid_mapping == mfr::mfr_enabled_types::enabled)
         {
@@ -211,6 +224,16 @@ void DetermineCohorts(std::wstring requestedPath, Cohorts *cohorts, bool UseMore
             {
                 Log(L"[%s%d] %s DetermineCohorts: No traditional mapping is valid.", g_MfrModuleName, dllInstance, FixupName);
             }
+        }
+        // MFRFixup-WPRALIAS: re-apply the real-package substitution for the alias, since any
+        // of the mapping branches above set WsPackage to the request as-is.
+        if (path_isSubsetOf_String(g_packageRootWprAliasPath, cohorts->file_mfr.Request_NormalizedPath.c_str()))
+        {
+            cohorts->WsPackage = ReplacePathPart(cohorts->file_mfr.Request_NormalizedPath.c_str(), g_packageRootWprAliasPath, g_packageRootPath);
+        }
+        else if (path_isSubsetOf_String(g_short_packageRootWprAliasPath, cohorts->file_mfr.Request_NormalizedPath.c_str()))
+        {
+            cohorts->WsPackage = ReplacePathPart(cohorts->file_mfr.Request_NormalizedPath.c_str(), g_short_packageRootWprAliasPath, g_packageRootPath);
         }
         break;
     case mfr::mfr_path_types::in_package_vfs_area:
