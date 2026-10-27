@@ -96,7 +96,7 @@ void InitializeConfiguration()
 #if MOREDEBUG
                 if (MFRConfiguration.Disable_KernelBase_Hooks)
                 {
-                    Log(L"\t\t\tMFR CONFIG: disableKernelBaseHooks enabled");
+                    Log(LogLevel_DebugIntermediate, L"\t\t\tMFR CONFIG: disableKernelBaseHooks enabled");
                 }
 #endif
             }

@@ -1,4 +1,5 @@
 
+set "PSModulePath=%SystemRoot%\System32\WindowsPowerShell\v1.0\Modules;%ProgramFiles%\WindowsPowerShell\Modules"
 echo "==================== PSF x86  DEBUG  ================================="
 msbuild CentennialFixups.sln /p:platform=x86;configuration=debug
 echo "==================== PSF x86 RELEASE ================================="
