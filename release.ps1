@@ -1,4 +1,4 @@
-$version = "v2026.10.25-2"
+$version = "v2026.10.27-1"
 $release_directory = "template-release-$version"
 $debug_directory = "template-debug-$version"
 New-Item -ItemType Directory -Force -Path $release_directory
